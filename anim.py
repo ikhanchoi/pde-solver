@@ -51,10 +51,27 @@ def animate(i):         #The plot shows the temperature evolving with time
     plt.plot(x0,x,color='red',label='Temperature at each x')
     plt.plot(0,0,color='red',label='Elapsed time '+str(round(t[k],2)))
     plt.grid(True)
-    plt.ylim([temp0-2,2.5*scale])
-    plt.xlim([0,L])
+    #plt.ylim([temp0-2,2.5*scale])
+    #plt.xlim([0,L])
+    plt.axis([0,L,temp0-2,2.5*scale])
     plt.title('Heat equation')
     plt.legend()
     
 anim = animation.FuncAnimation(fig,animate,frames=360,interval=20)
 plt.show()
+
+
+
+
+def plottrig(f):
+    xvalues = linspace(-pi,pi,100)
+    plot(xvalues, f(xvalues))
+    xlim(-pi,pi)
+    ylim(-2,2)
+
+trigfunctions = (sin, cos, tan)
+
+for function in trigfunctions:
+    print(function(pi/6.0))
+    plottrig(function)
+show()

@@ -26,26 +26,25 @@ def u_exact(t, I, w):
 	return I*np.cos(w*t)
 
 def visualize(u, t, I, w):
-	plt.plot(t, u, 'r--o')
-	t_fine = np.linspace(0, t[-1], 1001) # very fine mesh for u_e
-	u_e = u_exact(t_fine, I, w)
+	plt.plot(t, u, 'r.')
+	u_e = u_exact(t, I, w)
 
-	plt.plot(t_fine, u_e, 'b-')
-	plt.legend(['numerical', 'exact'], loc='upper left')
+	plt.plot(t, u_e, 'b-')
+	#plt.legend(['numerical', 'exact'], loc='upper left')
 	plt.xlabel('t')
 	plt.ylabel('u')
 	dt = t[1] - t[0]
 	plt.title('dt=%g' % dt)
 	umin = 1.2*u.min(); umax = -umin
 	plt.axis([t[0], t[-1], umin, umax])
-	plt.savefig('tmp1.png')
+	# plt.savefig('tmp1.png')
 	plt.show()
 
-I = 1
+u0 = 1
 w = 2*pi
 dt = 0.05
 num_periods = 5
 P = 2*pi/w
 T = P*num_periods
-u, t = solver(I, w, dt, T)
-visualize(u, t, I, w)
+u, t = solver(u0, w, dt, T)
+visualize(u, t, u0, w)
