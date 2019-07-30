@@ -30,14 +30,12 @@ def visualize(u, t, I, w):
 	u_e = u_exact(t, I, w)
 
 	plt.plot(t, u_e, 'b-')
-	#plt.legend(['numerical', 'exact'], loc='upper left')
+	plt.legend(['numerical', 'exact'], loc='upper left')
 	plt.xlabel('t')
 	plt.ylabel('u')
-	dt = t[1] - t[0]
-	plt.title('dt=%g' % dt)
-	umin = 1.2*u.min(); umax = -umin
-	plt.axis([t[0], t[-1], umin, umax])
-	# plt.savefig('tmp1.png')
+	plt.title('dt=%g' % t[1] - t[0])
+	plt.axis([t[0], t[-1], 1.2*u.min(), 1.2*u.max()])
+	plt.savefig('figure.png')
 	plt.show()
 
 u0 = 1
