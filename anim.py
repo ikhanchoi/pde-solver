@@ -1,7 +1,7 @@
 import numpy as np
 from numpy import pi
 import matplotlib.pyplot as plt
-import matplotlib.animation as animation
+import matplotlib.animation as anim
 
 fig = plt.figure()
 fig.set_dpi(100)
@@ -57,21 +57,21 @@ def animate(i):         #The plot shows the temperature evolving with time
     plt.title('Heat equation')
     plt.legend()
     
-anim = animation.FuncAnimation(fig,animate,frames=360,interval=20)
+animation = anim.FuncAnimation(fig, animate, frames=360, interval=20)
 plt.show()
 
 
 
 
 def plottrig(f):
-    xvalues = linspace(-pi,pi,100)
-    plot(xvalues, f(xvalues))
-    xlim(-pi,pi)
-    ylim(-2,2)
+    xvalues = np.linspace(-pi,pi,100)
+    plt.plot(xvalues, f(xvalues))
+    plt.xlim(-pi,pi)
+    plt.ylim(-2,2)
 
-trigfunctions = (sin, cos, tan)
+trigfunctions = (np.sin, np.cos, np.tan)
 
 for function in trigfunctions:
     print(function(pi/6.0))
     plottrig(function)
-show()
+plt.show()
