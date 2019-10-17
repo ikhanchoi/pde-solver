@@ -3,16 +3,18 @@ import numpy as np
 def solve_tridiagonal(A, y):
 	'''
 
-	b0 x0 + c0 x1         = y0
-	a1 x0 + b1 x1 + c1 x2 = y1
+	b0 x0 + c0 x1                 = y0
+	a1 x0 + b1 x1 + c1 x2         = y1
+	        a2 x1 + b2 x2 + c2 x3 = y2 ...
 
-	(b0 b1 - a1 c0) x1 + (b0 c1) x2         = b0 y1 - a1 y0
-	            a2  x1 +     b2  x2 + c2 x3 = y2
+	(b0b1-a1c0) x1 + (b0c1) x2         = b0 y1 - a1 y0
+	        a2  x1 +    b2  x2 + c2 x3 = y2 ...
 
-	d[i-1]x[i-1] + e[i-1]x[i] = f[i-1]
-	a[i]x[i-1] + b[i]x[i] + c[i]x[i+1] = y[i]
+	d[i-1] x[i-1] + e[i-1] x[i]               = f[i-1]
+	 a[i]  x[i-1] +  b[i]  x[i] + c[i] x[i+1] =  y[i]
 	->
 	(d[i-1]b[i]-e[i-1]a[i])x[i] + (d[i-1]c[i])x[i+1] = d[i-1]y[i]-a[i]f[i-1]
+	i.e.
 		d[i] = d[i-1] * b[i] - e[i-1] * a[i]
 		e[i] = d[i-1] * c[i]
 		f[i] = d[i-1] * y[i] - a[i] * f[i-1]
