@@ -34,35 +34,35 @@ def solve_euler(f, x0, domain=None):
 
 
 
-def solve_1d_poisson_dirichlet(f, x0, x1, domain=None):
+def solve_1d_poisson_dirichlet(f, u0, u1, domain=None):
 	'''
 	Solves
 
-		x''(t) = f(t),
-		x(0) = x0,
-		x(1) = x1.
+		u''(x) = f(x),
+		u(0) = u0,
+		u(1) = u1.
 	
 	Example
 	-------
-		f = lambda t : np.sin(10*t)
-		t = np.linspace(0, 1, 1000+1)
-		x = solve_1d_poisson_dirichlet(f, x0=0, x1=0.05, domain = t)
+		f = lambda x : np.sin(10*x)
+		x = np.linspace(0, 1, 1000+1)
+		u = solve_1d_poisson_dirichlet(f, u0=0, u1=0.05, domain = x)
 	'''
-	t = domain
-	h = t[1] - t[0]
-	n = domain.size - 1
+	x = domain
+	X = domain.size - 1
+	h = x[1] - x[0]
 
-	y = np.zeros(n+1)
-	y[0] = - x0 / (h ** 2)
-	y[n] = - x1 / (h ** 2)
-	for i in range(n+1):
-		y[i] += (-1) * f(t[i])
+	y = np.zeros(X+1)
+	y[0] = - u0 / (h ** 2)
+	y[X] = - u1 / (h ** 2)
+	for j in range(X+1):
+		y[j] += (-1) * f(x[j])
 
-	A = np.diag(np.ones(n), k=-1)
-	A += np.diag(np.full(n+1, -2))
-	A += np.diag(np.ones(n), k=1)
+	A = np.diag(np.ones(X), k=-1)
+	A += np.diag(np.full(X+1, -2))
+	A += np.diag(np.ones(X), k=1)
 
-	x = solve_tridiagonal(A, y)
-	x *= (h ** 2)
+	u = solve_tridiagonal(A, y)
+	u *= (h ** 2)
 
-	return x
+	return u

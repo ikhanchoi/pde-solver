@@ -64,6 +64,7 @@ for T in t:
 # local Markov chain이라는데 뭘까
 
 import random
+'''
 nsteps = int(1e+6)
 T = 2.5 # 2와 3 사이에서 phase transition between ferromagnet and paramagnet
 beta = 1./T
@@ -74,8 +75,8 @@ for step in range(nsteps):
 	if random.uniform(0., 1.) < np.exp(-beta * delta_E):
 		S[k] *= -1
 M = sum(S) # magnetization
-print(np.abs(M)/L**2) # absolute magnetization per site
-
+print("M = ", np.abs(M)/L**2) # absolute magnetization per site
+'''
 # critical  temperature 근처에서의 spin flipping은 시간을 잡아먹는다
 # large-scale correlation of the local MC algorithm close to 
 # critical slowing down(it is also known in experiment)
@@ -85,3 +86,29 @@ print(np.abs(M)/L**2) # absolute magnetization per site
 
 
 # Wolff cluster algorithm
+
+
+L = 100
+N = L * L
+nbr = {i : ((i // L) * L + (i+1) % L, (i+L) % L**2,
+			(i // L) * L + (i-1) % L, (i-L) % L**2)
+			for i in range(N) }
+T = 2.0
+p = 1.0 - np.exp(-1.0/T)
+nsteps = 10000
+S = [random.choice([1,-1]) for k in range(N)]
+for step in range(nsteps):
+	k = random.randint(0, N-1)
+	Pocket, Cluster = [k], [k]
+	while Pocket != []:
+		j = random.choice(Pocket)
+		for l in nbr[j]:
+			if S[l] == S[j] and l not in Cluster and random.uniform(0.0, 1.0) < p:
+				Pocket.append(l)
+				Cluster.append(l)
+		Pocket.remove(j)
+	for j in Cluster:
+		S[j] *= -1
+
+M = sum(S) # magnetization
+print("M = ", np.abs(M)/L**2) # absolute magnetization per site
