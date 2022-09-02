@@ -1,6 +1,6 @@
 import numpy as np
 
-def solve_tridiagonal(A, y):
+def Tridiagonal_solve(A, y):
 	'''
 
 	b0 x0 + c0 x1                 = y0
@@ -10,6 +10,7 @@ def solve_tridiagonal(A, y):
 	(b0b1-a1c0) x1 + (b0c1) x2         = b0 y1 - a1 y0
 	        a2  x1 +    b2  x2 + c2 x3 = y2 ...
 
+	Define d,e,f such that 
 	d[i-1] x[i-1] + e[i-1] x[i]               = f[i-1]
 	 a[i]  x[i-1] +  b[i]  x[i] + c[i] x[i+1] =  y[i]
 	->

@@ -2,93 +2,75 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
+Nt = 1000
+Nx = 100
+Ny = 100
+N = Nx*Ny
+
+T = 1
+beta = 1/T
 
 
-
-def Metropolis_flip(s, beta):
-	X,Y = s.shape
-	x,y = np.random.randint(X), np.random.randint(Y)
-	dH = 2*s[x,y]*(s[(x+1)%X,y]+s[x,(y+1)%Y]+s[(x-1)%X,y]+s[x,(y-1)%Y])
+def Metropolis_flip(s):
+	i,j = np.random.randint(Nx), np.random.randint(Ny)
+	dH = 2*s[i,j]*(s[(i+1)%Nx,j]+s[i,(j+1)%Ny]+s[(i-1)%Nx,j]+s[i,(j-1)%Ny])
 
 	if dH < 0. or np.random.rand() < np.exp(-beta*dH):
-		s[x,y] *= -1
+		s[i,j] *= -1
 	return s
 
 def Glauber_flip(s, beta):
-	X,Y = s.shape
-	x,y = np.random.randint(X), np.random.randint(Y)
-	dH = 2*s[x,y]*(s[(x+1)%X,y]+s[x,(y+1)%Y]+s[(x-1)%X,y]+s[x,(y-1)%Y])
+	i,j = np.random.randint(Nx), np.random.randint(Ny)
+	dH = 2*s[i,j]*(s[(i+1)%Nx,j]+s[i,(j+1)%Ny]+s[(i-1)%Nx,j]+s[i,(j-1)%Ny])
 
 	if np.random.rand() < 1/(1+np.exp(beta*dH)):
-		s[x,y] *= -1
+		s[i,j] *= -1
 	return s
 
 def Wolff_flip(s, beta):
-	X,Y = s.shape
-	x,y = np.random.randint(X), np.random.randint(Y)
-	Pocket, Cluster = [(x,y)], [(x,y)]
+	i,j = np.random.randint(Nx), np.random.randint(Ny)
+	Pocket, Cluster = [(i,j)], [(i,j)]
 
 	while Pocket != []:
-		x,y = Pocket[np.random.randint(len(Pocket))]
-		for nb in [((x+1)%X,y), (x,(y+1)%Y), ((x-1)%X,y), (x,(y-1)%Y)]:
-			if s[nb] == s[x,y] and nb not in Cluster and np.random.rand() < 1-np.exp(-beta):
+		i,j = Pocket[np.random.randint(len(Pocket))]
+		for nb in [((i+1)%Nx,j), (i,(j+1)%Ny), ((i-1)%Nx,j), (i,(j-1)%Ny)]:
+			if s[nb] == s[i,j] and nb not in Cluster and np.random.rand() < 1-np.exp(-beta):
 				Pocket.append(nb)
 				Cluster.append(nb)
-		Pocket.remove((x,y))
+		Pocket.remove((i,j))
 
-	for x,y in Cluster:
-		s[x,y] *= -1
+	for i,j in Cluster:
+		s[i,j] *= -1
 	return s
 
 
-
-
-
 def magnetization(s):
-	X,Y = s.shape
 	M = 0
-	for x in range(X):
-		for y in range(Y):
-			M += s[x,y]
+	for i in range(Nx):
+		for j in range(Ny):
+			M += s[i,j]
 	return M/N
 def energy(s):
-	X,Y = s.shape
 	E = 0
-	for x in range(X):
-		for y in range(Y):
-			E += -s[x,y]*(s[(x+1)%X,y]+s[x,(y+1)%Y])
+	for i in range(Nx):
+		for j in range(Ny):
+			E += -s[i,j]*(s[(i+1)%Nx,j]+s[i,(j+1)%Ny])
 	return E/N
 
 
 
-
-X = 100
-Y = 100
-N = X*Y
-
-temperature = 1
-beta = 1/temperature
-
-s = np.random.choice([1,-1], size=(X,Y))
-
-# filming
-frameCount = 100
+s = np.random.choice([1,-1], size=(Nx,Ny))
 states = []
-for _ in range(frameCount):
-	for _ in range(1):
-		s = Metropolis_flip(s,beta)
+for _ in range(Nt):
+	for _ in range(100):
+		s = Metropolis_flip(s)
 	states.append(np.copy(s))
 
-fig = plt.figure()
-im = plt.imshow(states[0])
-time = plt.text(-30,0,"")
-magn = plt.text(-30,10,"")
-ener = plt.text(-30,20,"")
+fig,ax = plt.subplots()
 def update(frame):
-	im.set_array(states[frame])
-	time.set_text("t="+str(frame))
-	magn.set_text("M="+str(magnetization(states[frame])))
-	ener.set_text("E="+str(energy(states[frame])))
+	ax.cla()
+	ax.imshow(states[frame])
+	ax.set_title("t={:.2f}  M={:.2f}  E={:.2f}".format(frame,magnetization(states[frame]),energy(states[frame])))
 
-ani = FuncAnimation(fig, update, frameCount, interval=50)
+ani = FuncAnimation(fig, update, Nt, interval=50)
 plt.show()
