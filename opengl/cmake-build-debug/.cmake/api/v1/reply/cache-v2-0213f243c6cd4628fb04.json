@@ -1126,6 +1126,18 @@
 			"value" : "glfw3-NOTFOUND"
 		},
 		{
+			"name" : "glfw3_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "The directory containing a CMake configuration file for glfw3."
+				}
+			],
+			"type" : "PATH",
+			"value" : "/opt/homebrew/lib/cmake/glfw3"
+		},
+		{
 			"name" : "glfw_DIR",
 			"properties" : 
 			[
@@ -1136,6 +1148,22 @@
 			],
 			"type" : "PATH",
 			"value" : "glfw_DIR-NOTFOUND"
+		},
+		{
+			"name" : "glm_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "ADVANCED",
+					"value" : "1"
+				},
+				{
+					"name" : "HELPSTRING",
+					"value" : "The directory containing a CMake configuration file for glm."
+				}
+			],
+			"type" : "PATH",
+			"value" : "/opt/homebrew/lib/cmake/glm"
 		},
 		{
 			"name" : "opengl_BINARY_DIR",

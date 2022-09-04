@@ -1,4 +1,4 @@
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 using namespace glm;
@@ -26,9 +26,14 @@ int main(){
 	if(!window){ glfwTerminate(); return -1; }
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) return -1;
+
+
+
+
 	glViewport(0, 0, 800, 600);
 
-	if(glewInit()!=GLEW_OK) return -1;
 
 	// build and compile our shader programs
 	unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);

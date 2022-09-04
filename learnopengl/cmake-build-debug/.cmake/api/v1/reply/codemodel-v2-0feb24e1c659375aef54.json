@@ -9,7 +9,7 @@
 					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
 					"minimumCMakeVersion" : 
 					{
-						"string" : "3.23"
+						"string" : "3.2"
 					},
 					"projectIndex" : 0,
 					"source" : ".",
@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "learnopengl::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-learnopengl-Debug-c6cc3aaebea445f28b6b.json",
+					"jsonFile" : "target-learnopengl-Debug-53af9246b8be3aa5fac5.json",
 					"name" : "learnopengl",
 					"projectIndex" : 0
 				}

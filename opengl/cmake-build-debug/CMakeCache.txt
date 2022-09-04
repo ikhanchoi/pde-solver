@@ -216,8 +216,14 @@ glfw:FILEPATH=glfw-NOTFOUND
 //Path to a library.
 glfw3:FILEPATH=glfw3-NOTFOUND
 
+//The directory containing a CMake configuration file for glfw3.
+glfw3_DIR:PATH=/opt/homebrew/lib/cmake/glfw3
+
 //The directory containing a CMake configuration file for glfw.
 glfw_DIR:PATH=glfw_DIR-NOTFOUND
+
+//The directory containing a CMake configuration file for glm.
+glm_DIR:PATH=/opt/homebrew/lib/cmake/glm
 
 //Value Computed by CMake
 opengl_BINARY_DIR:STATIC=/Users/ikhanchoi/Dropbox/Git/simulations/opengl/cmake-build-debug
@@ -364,4 +370,6 @@ CMAKE_STRIP-ADVANCED:INTERNAL=1
 CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: glm_DIR
+glm_DIR-ADVANCED:INTERNAL=1
 

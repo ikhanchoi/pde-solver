@@ -26,19 +26,19 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 19,
+				"line" : 10,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 21,
+				"line" : 12,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 10,
+				"line" : 6,
 				"parent" : 0
 			}
 		]
@@ -59,15 +59,12 @@
 			[
 				{
 					"backtrace" : 3,
-					"path" : "/Users/ikhanchoi/Dropbox/Git/simulations/learnopengl/./glad/include"
+					"path" : "/Users/ikhanchoi/Dropbox/Git/simulations/learnopengl/glad/include"
 				},
 				{
-					"backtrace" : 3,
-					"path" : "/opt/homebrew/Cellar/glfw/3.3.8/include"
-				},
-				{
-					"backtrace" : 3,
-					"path" : "/opt/homebrew/Cellar/glm/0.9.9.8/include"
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "/opt/homebrew/include"
 				}
 			],
 			"language" : "CXX",
@@ -95,15 +92,12 @@
 			[
 				{
 					"backtrace" : 3,
-					"path" : "/Users/ikhanchoi/Dropbox/Git/simulations/learnopengl/./glad/include"
+					"path" : "/Users/ikhanchoi/Dropbox/Git/simulations/learnopengl/glad/include"
 				},
 				{
-					"backtrace" : 3,
-					"path" : "/opt/homebrew/Cellar/glfw/3.3.8/include"
-				},
-				{
-					"backtrace" : 3,
-					"path" : "/opt/homebrew/Cellar/glm/0.9.9.8/include"
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "/opt/homebrew/include"
 				}
 			],
 			"language" : "C",
@@ -127,8 +121,12 @@
 				"role" : "flags"
 			},
 			{
-				"backtrace" : 1,
-				"fragment" : "/opt/homebrew/Cellar/glfw/3.3.8/lib/libglfw.3.dylib",
+				"fragment" : "-Wl,-rpath,/opt/homebrew/lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "/opt/homebrew/lib/libglfw.3.3.dylib",
 				"role" : "libraries"
 			},
 			{
@@ -168,7 +166,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 1,
-			"path" : "glad.c",
+			"path" : "glad/src/glad.c",
 			"sourceGroupIndex" : 0
 		}
 	],
