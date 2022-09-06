@@ -1,8 +1,0 @@
-# ninja log v5
-378	421	1662428200521763238	learnopengl	efe10172a480937d
-2	58	1662185702054811303	CMakeFiles/learnopengl.dir/glad/src/glad.c.o	a0d31f66fe8ccf72
-2	378	1662428200476557754	CMakeFiles/learnopengl.dir/main.cpp.o	36997e98fedb1110
-2	63	1662126975748058947	CMakeFiles/learnopengl.dir/glad.c.o	9ee83cae5e9472f7
-1	185	1662421408156628438	CMakeFiles/learnopengl.dir/stb_image.cpp.o	f4213fcf67c5a219
-0	47	1662472422224990552	build.ninja	d90f2b04ea6e80b5
-0	63	1662472422224990552	build.ninja	5f75a583d847840a
