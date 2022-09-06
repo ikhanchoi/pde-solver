@@ -7,6 +7,6 @@ include_directories(glad/include)
 find_package(glfw3 3.3 REQUIRED)
 find_package(glm REQUIRED)
 
-add_executable(learnopengl main.cpp glad/src/glad.c)
+add_executable(learnopengl main.cpp glad/src/glad.c stb_image.cpp)
 
 target_link_libraries(learnopengl glfw "-framework OpenGL")

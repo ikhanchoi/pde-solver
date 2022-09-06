@@ -60,6 +60,13 @@ build CMakeFiles/learnopengl.dir/glad/src/glad.c.o: C_COMPILER__learnopengl_Debu
   OBJECT_DIR = CMakeFiles/learnopengl.dir
   OBJECT_FILE_DIR = CMakeFiles/learnopengl.dir/glad/src
 
+build CMakeFiles/learnopengl.dir/stb_image.cpp.o: CXX_COMPILER__learnopengl_Debug /Users/ikhanchoi/Dropbox/Git/simulations/learnopengl/stb_image.cpp || cmake_object_order_depends_target_learnopengl
+  DEP_FILE = CMakeFiles/learnopengl.dir/stb_image.cpp.o.d
+  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.0.sdk -std=gnu++14
+  INCLUDES = -I/Users/ikhanchoi/Dropbox/Git/simulations/learnopengl/glad/include -isystem /opt/homebrew/include
+  OBJECT_DIR = CMakeFiles/learnopengl.dir
+  OBJECT_FILE_DIR = CMakeFiles/learnopengl.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target learnopengl
@@ -68,7 +75,7 @@ build CMakeFiles/learnopengl.dir/glad/src/glad.c.o: C_COMPILER__learnopengl_Debu
 #############################################
 # Link the executable learnopengl
 
-build learnopengl: CXX_EXECUTABLE_LINKER__learnopengl_Debug CMakeFiles/learnopengl.dir/main.cpp.o CMakeFiles/learnopengl.dir/glad/src/glad.c.o | /opt/homebrew/lib/libglfw.3.3.dylib
+build learnopengl: CXX_EXECUTABLE_LINKER__learnopengl_Debug CMakeFiles/learnopengl.dir/main.cpp.o CMakeFiles/learnopengl.dir/glad/src/glad.c.o CMakeFiles/learnopengl.dir/stb_image.cpp.o | /opt/homebrew/lib/libglfw.3.3.dylib
   FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.0.sdk
   LINK_LIBRARIES = -Wl,-rpath,/opt/homebrew/lib  /opt/homebrew/lib/libglfw.3.3.dylib  -framework OpenGL
   OBJECT_DIR = CMakeFiles/learnopengl.dir
