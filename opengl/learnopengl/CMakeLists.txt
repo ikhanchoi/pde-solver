@@ -1,0 +1,12 @@
+cmake_minimum_required(VERSION 3.23)
+project(learnopengl)
+
+set(CMAKE_CXX_STANDARD 14)
+
+include_directories(glad/include)
+find_package(glfw3 3.3 REQUIRED)
+find_package(glm REQUIRED)
+
+add_executable(learnopengl main.cpp glad/src/glad.c stb_image.cpp)
+
+target_link_libraries(learnopengl glfw "-framework OpenGL")
