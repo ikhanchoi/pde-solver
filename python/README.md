@@ -1,9 +1,5 @@
 # Differential equations
 
-
-
-
-
 ## ode....
 
 ## heat1d
@@ -17,6 +13,8 @@ von Neumann stability
 # Monte Carlo algorithms
 
 ## ising
+
+
 
 percolation, network
 
