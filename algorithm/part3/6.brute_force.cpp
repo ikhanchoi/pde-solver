@@ -28,7 +28,7 @@ class PICNIC{
 
 		int ret = 0;
 		for(int j = i + 1; j < N; j++)
-			if(!paired[j] && adj[i][j]){
+			if(!paired[j] && adj[i][j]){ // promising
 				paired[i] = paired[j] = true;
 				ret += countPairings(paired);
 				paired[i] = paired[j] = false;
@@ -53,7 +53,7 @@ public:
 
 
 
-
+// 완성 안됨
 #include <iostream>
 using namespace std;
 class BOARDCOVER{

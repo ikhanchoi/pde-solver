@@ -1,7 +1,11 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <iostream>
 
 // callbacks
+void error_callback(int error, const char* description){
+	fprintf(stderr, "Error: %s\n", description);
+}
 void framebuffer_size_callback(GLFWwindow* window, int width, int height){
 	glViewport(0, 0, width, height);
 }
@@ -10,10 +14,11 @@ void processInput(GLFWwindow *window){
 		glfwSetWindowShouldClose(window, true);
 }
 
-
-
 int main(){
-	if(!glfwInit()) return -1;
+	if(!glfwInit()){
+		std::cerr << "Error: GLFW 초기화 실패" << std::endl;
+		exit(EXIT_FAILURE);
+	};
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -21,6 +26,8 @@ int main(){
 
 	GLFWwindow* window = glfwCreateWindow(800, 600, "Learn OpenGL", NULL, NULL);
 	if(!window){ glfwTerminate(); return -1; }
+
+
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
