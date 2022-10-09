@@ -7,6 +7,7 @@ include_directories(glad/include)
 find_package(glfw3 3.3 REQUIRED)
 find_package(glm REQUIRED)
 
-add_executable(opengl main.cpp window.cpp input.cpp glad/src/glad.c)
+set(source_files window.cpp input.cpp shader.cpp)
+add_executable(opengl main.cpp ${source_files} glad/src/glad.c)
 
 target_link_libraries(opengl glfw "-framework OpenGL")

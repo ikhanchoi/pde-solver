@@ -1,0 +1,144 @@
+{
+  "main": {
+    "id": "4a3adde6002c306e",
+    "type": "split",
+    "children": [
+      {
+        "id": "83946364531a0562",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "opengl/1.opengl.md",
+            "mode": "source",
+            "source": false
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "c0baee2eca093944",
+    "type": "split",
+    "children": [
+      {
+        "id": "cf0e53a639835bda",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "318f3587d2552081",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "9672a57d535c5ec4",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "9c1b50806aa71f6e",
+            "type": "leaf",
+            "state": {
+              "type": "starred",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 128.5
+  },
+  "right": {
+    "id": "70d4dd717d146aae",
+    "type": "split",
+    "children": [
+      {
+        "id": "9bc970d848239f07",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "fdd96454a248b66a",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "opengl/1.opengl.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "f3f664c51979aa27",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "opengl/1.opengl.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "b059d7d09a9703f4",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "555c076b8e1a3d3f",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "opengl/1.opengl.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "active": "83946364531a0562",
+  "lastOpenFiles": [
+    "opengl/2.build.md",
+    "opengl/1.opengl.md",
+    "opengl/camera.md",
+    "opengl/3.windows.md",
+    "opengl/4.shaders.md",
+    "opengl/README.md",
+    "opengl/lighting.md",
+    "opengl/5.models.md",
+    "opengl/6.textures.md",
+    "algorithm/README.md"
+  ]
+}

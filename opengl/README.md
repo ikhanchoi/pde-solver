@@ -72,6 +72,8 @@ normal의 world 좌표 얻는 방법에 대해서 좀 더 고민해보자. mat3 
 Dir 벡터는 반사지점을 원점으로 하는 컨벤션을 따르도록 하자.
 
 ### Materials
+대략 빛과 반응할 수 있는 속성값
+
 	struct Material{
 		vec3 ambient;
 		vec3 diffuse;
@@ -288,8 +290,11 @@ height map, tesselation
 
 ## Physics engine
 
+force field
+
+
 ### Rigid body
-collision detection
+collision
 rigid body motion
 
 ### Soft body
@@ -308,7 +313,7 @@ raindrops
 	식물 잎사귀에 떨어지는 물방울, 젖어가는 흙
 witchery effects
 
-### Powders
+### Particle
 sands
 snow
 	눈 종류, 바람 상호작용, 사람 상호작용

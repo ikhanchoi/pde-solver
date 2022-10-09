@@ -1,5 +1,4 @@
 .DS_Store
 .idea
-.obsidian
 cmake-build-debug
 __pycache__
