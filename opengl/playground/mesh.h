@@ -36,8 +36,9 @@ public:
 	vector<unsigned int> indices;
 	vector<Texture>      textures;
 	unsigned int VAO;
-	Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures);
 
+	Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures);
+	void draw(Shader &shader);
 };
 
 

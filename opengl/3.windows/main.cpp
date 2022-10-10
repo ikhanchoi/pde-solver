@@ -28,7 +28,6 @@ int main() {
 			updated = current;
 			lag -= sec_per_update;
 			input_manager.keyUpdate(x,y);
-			glfwPollEvents();
 		}
 
 		if(delta_time >= sec_per_render) {
@@ -44,5 +43,6 @@ int main() {
 			
 			glfwSwapBuffers(window);
 		}
+		glfwPollEvents();
 	}
 }

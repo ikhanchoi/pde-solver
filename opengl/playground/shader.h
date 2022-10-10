@@ -7,14 +7,15 @@
 #include <fstream>
 #include <sstream>
 
-class ShaderLoader {
+class Shader {
 private:
 	unsigned int ID;
 	static void checkCompileErrors(unsigned int shader, std::string type);
 
 public:
-	ShaderLoader(const char* vert_path, const char* frag_path);
+	Shader(const char* vert_path, const char* frag_path);
 	void use();
+	unsigned int getID();
 
 	void setBool(const std::string &name, bool value) const;
 	void setInt(const std::string &name, int value) const;

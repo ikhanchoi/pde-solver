@@ -11,7 +11,7 @@ int main() {
 	InputManager input_manager(window);
 	float x = 0, y = 0;
 
-	ShaderLoader program("../shader.vert", "../shader.frag");
+	Shader program("../shader.vert", "../shader.frag");
 	program.use();
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);

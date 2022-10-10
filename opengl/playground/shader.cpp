@@ -1,6 +1,6 @@
 #include "shader.h"
 
-ShaderLoader::ShaderLoader(const char* vertexPath, const char* fragmentPath) {
+Shader::Shader(const char* vertexPath, const char* fragmentPath) {
 
 	//
 	std::string vertexCode;
@@ -50,20 +50,20 @@ ShaderLoader::ShaderLoader(const char* vertexPath, const char* fragmentPath) {
 
 
 
-void ShaderLoader::use() { glUseProgram(ID); }
-void ShaderLoader::setBool(const std::string &name, bool value) const {
+void Shader::use() { glUseProgram(ID); }
+void Shader::setBool(const std::string &name, bool value) const {
 	glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)value);
 }
-void ShaderLoader::setInt(const std::string &name, int value) const {
+void Shader::setInt(const std::string &name, int value) const {
 	glUniform1i(glGetUniformLocation(ID, name.c_str()), value);
 }
-void ShaderLoader::setFloat(const std::string &name, float value) const {
+void Shader::setFloat(const std::string &name, float value) const {
 	glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
 }
 
+unsigned int Shader::getID() { return ID; }
 
-
-void ShaderLoader::checkCompileErrors(unsigned int shader, std::string type) {
+void Shader::checkCompileErrors(unsigned int shader, std::string type) {
 	int success;
 	char infoLog[1024];
 	if(type != "PROGRAM") {
