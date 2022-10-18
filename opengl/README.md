@@ -15,7 +15,7 @@ rotate: float 각과 vec3 축으로
 perspective: float fov, float aspect,
 
 S3 -> SO(3)
-단위사원수가 순허수에 컴쥬게이션으로 액트하는 게 회전 변환
+단위사원수가 순허수에 컨쥬게이션으로 액트하는 게 회전 변환
 
 
 ### Coordinate systems

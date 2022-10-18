@@ -2,44 +2,42 @@
 
 
 
+### Model matrix
 
-# 8. Transformations
+키보드 신호나 물리엔진을 돌려 나온 위치벡터 등의 결과들로 Model 행렬을 만든다
 
-R3라서 좌표 세개가 아니라 RP3라서 좌표 네개, 따라서 변환들은 4차 행렬로 나타낼 거
+### View matrix
 
-행렬 곱 조작들: translate, scale, rotate; perspective
-
-행렬들은 유니폼으로 정점 셰이더에 넘겨줌
-
-
-## Normal vector transformation
+카메라의 위치 및 방향 정보로 View 행렬을 만든다
 
 
-# 9. Coordinates
+### Projection matrix
+절두체를 직육면체로 바꾼다
+Projection 행렬은 다른 매트릭스에 비해서는 거의 안바뀌기 때문에 렌더 루프 바깥에서 잡는 경우가 많다
+카메라의 줌인 줌아웃도 여기서 반영시킬 수 있다
 
-## 9.1. Sample code
+Orthographic projection과 Perspective projection
+두 가지 방식
+
+perspective division
+  - 이제 translation이나 rotation할 일 없으니까 homogeneous w component 버려도 됨
+  - x,y,z 성분 뽑고 z는 깊이니까 음
+  - 정점 셰이더 끝날 때 이루어진대. 최소한 이 예제에서는
 
 
-큐브 1개 = 면 6개 = 삼각형 12개 = 정점 36개 이므로
-큐브 하나 돌릴 때마다 드로잉 커맨드에 36개씩 버텍스 넣어줘야 함
+즉 카메라 클래스가 view, projection 행렬을 만드는 메소드를 가져도 좋을 것 같다.
 
-## 9.2. Spaces
-
-### Local space
-
-### World space
-
-### View space
-
-### Clip space
-
-### Screen space
+### ViewPort transformation
 
 
 
 
+## 9.4. Depth buffer
 
-## 9.3. Matrices
+그냥 활성화시킨다는 것 말고 다루지 않음
+
+
+
 구체적으로 각 행렬들이 glm에서 어떻게 만들어질 수 있는지들을 보자.
 glm documentation에 들어가면 stable extensions 에서 확인하는 것이 가능
 
@@ -63,52 +61,10 @@ MV matrix를 만드는 효과적인 방법들
 - mat4 class?
 
 
-### Model matrix
-모델을 월드의 어디에 놓은 거냐는 것에 대한 행렬
-Model 성분별 혹은 방향성 가지는 스케일링까지는 존재 
-translation, scaling, rotation:
-orientation preserving similarity transformations
-
-키보드 신호나 물리엔진을 돌려 나온 결과들이 개입될 것이다.
-
-### View matrix
-camera를 simulate하기 위해 주로 조작해야 하는 행렬
-
-translation, rotation:
-rigid motions
-
-
-
-
-### Projection matrix
-Normalized device coordinates로 스케일링한다
-
-이렇게 projection matrix가 만드는 clipping volume을 frustum이라고 한다
-clipping volume 만들 때 near plane과 far plane을 설정해줘서 clipping volume을 compact하게 만든다
-클리핑 여기서 한다
-
-projection matrix는 다른 매트릭스에 비해서는 거의 안바뀌기 때문에 렌더 루프 바깥에서 잡는 경우가 많다
-
-- perspective division
-  - 이제 translation이나 rotation할 일 없으니까 homogeneous w component 버려도 됨
-  - x,y,z 성분 뽑고 z는 깊이니까 음
-  - 정점 셰이더 끝날 때 이루어진대. 최소한 이 예제에서는
-
-
-Orthographic projection과 Perspective projection
-
-
-### ViewPort transformation
-
-
-## 9.4. Depth buffer
-
-그냥 활성화시킨다는 것 말고 다루지 않음
-
 
 # 10. Camera
 
-뒤통수 convention
+뒤통수 컨벤션
 Right(x) Up(y) Direction(z) 순서로 오른손
 
 

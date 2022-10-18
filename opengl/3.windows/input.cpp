@@ -2,7 +2,7 @@
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
 	if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-	glfwSetWindowShouldClose(window, true);
+		glfwSetWindowShouldClose(window, true);
 }
 
 
@@ -12,7 +12,7 @@ InputManager::InputManager(GLFWwindow* window) {
 }
 
 void InputManager::keyUpdate(float& x, float& y) {
-	float velocity = 0.00005f;
+	float velocity = 0.01f;
 
 	if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		y += velocity;
