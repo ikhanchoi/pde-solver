@@ -1,0 +1,1 @@
+from model.phonemic_hmm import PhonemicHMM
