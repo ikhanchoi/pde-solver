@@ -307,7 +307,7 @@ gl_Position
 
 ## 7.3. Filtering
 
-## 7.4. 
+## 7.4.
 loading, applying
 
 
@@ -438,57 +438,3 @@ flight simulation camera
 
 
 
-
-
-
-
-
-
-# Visual design elements
-Data delivered to Rendering engine
-
-Line, Shape, Form
-	vertex data
-		position vector
-	movement data
-		geometric/organic, curvilinear/rectilinear
-Space
-	camera position and angle data
-	depth data for each vertex
-	skybox animation image data
-	focus data
-		geometry of projection
-Texture
-	uv mapping coordinates data
-	physical parameters data
-Color, Value
-	color data
-	contrast data
-
-
-Attribute
-Uniform
-Texture
-
-
-
-
-
-## 정점 속성과 유니폼 속성
-셰이더에 인풋으로 들어가는 정보들
-attribute location(=index)를 먼저 찾아야 한다
-
-정점 셰이더에서는 유니폼을 쓰지 않음
-
-
-transform feedback
-asynchronous pixel transfers
-
-
-## 좌표
-- normalized device coordinates
-	viewport transformation
-- screen-space coordinates
-
-
-## Contexts
