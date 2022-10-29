@@ -1,5 +1,18 @@
 
 
+#
+
+## 3. inputs
+input system을 어느 정도까지 만들어야 할까
+렌더는
+
+## 4. shaders
+
+## 5. meshes
+
+
+## 6. materials
+
 
 
 
@@ -30,10 +43,31 @@
 시간에 따라 깜빡이며 랜덤하게 작용하는 광원, 방향도 제한적
 
 
+Ambient occlusion
+Bloom
+Spectral rendering
+Anti-aliasing
 
+Normal mapping
+Parallax mapping
 
+PBR
 
+Tesselation
+Displacement mapping
+Toon rendering
 
+Ray tracing
+Ray casting
+Global illumination
+Photon mapping
+
+Subsurface scattering
+transluency
+
+Chroma key
+
+코넬 박스, 스탠퍼드 토끼, 유타 주전자
 
 
 ## Rendering engine

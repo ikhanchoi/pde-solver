@@ -4,14 +4,40 @@
 #include "input.h"
 
 
+
+class Triangle : IMovable {
+	float* vertices;
+	float* color;
+	float velocity;
+public:
+	Triangle(float* vertices, float* color, float velocity) {
+		this->vertices = vertices;
+		this->color = color;
+		this->velocity = velocity;
+	}
+
+	void move() override {
+
+	}
+};
+
 int main() {
 
 	GLFWwindow* window = WindowInitializer(1,0).createWindow();
 
-	InputManager input_manager(window);
-	float x = 0, y = 0;
+	InputSystem inputSystem(window);
+
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	float vertices[6] = {
+			-0.5f, -0.5f,
+			-0.5f, -0.5f,
+			 0.0f,  0.5f
+	};
+	float color[3] = {1.0f, 0.0f, 0.0f};
+	float velocity = 0.01f;
+
+	auto* triangle = new Triangle(vertices, color, velocity);
 
 
 	float FPS = 60.0f;
@@ -28,19 +54,14 @@ int main() {
 			lag -= sec_per_update;
 			count_update++;
 			glfwPollEvents();
-			input_manager.keyUpdate(x,y);
+			inputSystem.keyUpdate();
 		}
 
 		if(current - rendered >= sec_per_render) {
 			rendered = current;
 			count_render++;
 			glClear(GL_COLOR_BUFFER_BIT);
-			glBegin(GL_TRIANGLES);
-				glColor3f(1.0f, 0.0f, 0.0f);
-				glVertex2f(-0.5f + x, -0.5f + y);
-				glVertex2f(0.5f + x, -0.5f + y);
-				glVertex2f(0.0f + x, 0.5f + y);
-			glEnd();
+			gl
 			glfwSwapBuffers(window);
 		}
 	}
