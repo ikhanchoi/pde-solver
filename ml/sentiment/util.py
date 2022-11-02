@@ -5,7 +5,7 @@ import torchtext
 import time
 
 
-device = torch.device("mps")
+device = torch.device("cpu")
 
 
 class Trainer(object):
@@ -47,20 +47,20 @@ class Trainer(object):
 			self.train(train_data)
 			self.validate(valid_data)
 			self.test(test_data)
-		print("[!] learing finised!")
+		print("[!] learning finised!")
 
 	def train(self, train_data):
 		print("[!] training model...")
 		batch_loss = 0
 		start = time.time()
 		for b, batch in enumerate(train_data):
-			sources = batch.src.to(device)
-			targets = batch.trg.to(device)
+			sources = batch[0].to(device) # [Tx,B]
+			targets = batch[1].to(device) # [Ty,B]
 			# Compute loss
 			outputs = self.model(sources, targets.size(0))
 			loss = self.lossf(
-				outputs[1:].view(-1, outputs.size(2)), # [Ty*B;Kx]<-[Ty,B;Kx]
-				targets[1:].view(-1) # [Ty*B]<-[Ty,B]
+				outputs.view(-1, outputs.size(2)), # [Ty*B;Ky]<-[Ty,B;Ky]
+				targets.view(-1) # [Ty*B]<-[Ty,B]
 			)
 			# Back propagation
 			self.optim.zero_grad()
@@ -71,27 +71,27 @@ class Trainer(object):
 			batch_loss += loss.item() # loss is [1]-shape tensor
 			if (b+1) % 40 == 0:
 				print("[Batch : %4d/%4d] "%(b+1, len(train_data)),
-					  "[Avg Loss : %5.3f]"%(batch_loss/40))
+					  "[Avg Loss : %5.6f]"%(batch_loss/40))
 				batch_loss = 0
-		print("[TIME : %.2f"%(time.time()-start))
+		print("[Time : %.2f]"%(time.time()-start))
 
 	def validate(self, valid_data):
 		print("[!] validating model...")
 		valid_loss = 0
 		with torch.no_grad(): # does not compute grad in validation or evaluation
 			for batch in valid_data:
-				sources = batch.src.to(device)
-				targets = batch.trg.to(device)
+				sources = batch[0].to(device)
+				targets = batch[1].to(device)
 				#
 				outputs = self.model(sources, targets.size(0)) # [Ty,B;Ky]<-[Tx,B],Ty
 				loss = self.lossf(
-					outputs[1:].view(-1, outputs.size(2)), # [Ty*B;Kx]<-[Ty,B;Kx]
-					targets[1:].view(-1) # [Ty*B]<-[Ty,B]
+					outputs.view(-1, outputs.size(2)), # [Ty*B;Kx]<-[Ty,B;Kx]
+					targets.view(-1) # [Ty*B]<-[Ty,B]
 				)
 				#
 				valid_loss += loss.item()
 		avg_valid_loss = valid_loss/len(valid_data)
-		print("[Avg Loss : %5.3f]"%(avg_valid_loss))
+		print("[Avg Loss : %5.6f]"%(avg_valid_loss))
 
 		if self.best_valid_loss > avg_valid_loss:
 			self.best_valid_loss = avg_valid_loss
@@ -105,17 +105,17 @@ class Trainer(object):
 		test_loss = 0
 		with torch.no_grad(): # does not compute grad in validation or evaluation
 			for batch in test_data:
-				sources = batch.src.to(device)
-				targets = batch.trg.to(device)
+				sources = batch[0].to(device)
+				targets = batch[1].to(device)
 				#
 				outputs = self.model(sources, targets.size(0)) # [Ty,B;Ky]<-[Tx,B],Ty
 				loss = self.lossf(
-					outputs[1:].view(-1, outputs.size(2)), # [Ty*B;Kx]<-[Ty,B;Kx]
-					targets[1:].view(-1) # [Ty*B]<-[Ty,B]
+					outputs.view(-1, outputs.size(2)), # [Ty*B;Kx]<-[Ty,B;Kx]
+					targets.view(-1) # [Ty*B]<-[Ty,B]
 				)
 				#
 				test_loss += loss.item()
-		print("[Test Avg Loss : %5.3f]"%(test_loss/len(test_data)))
+		print("[Test Avg Loss : %5.6f]"%(test_loss/len(test_data)))
 
 		# Although I did not implement, you may add BLEU score or perplexity calculator here.
 
@@ -134,6 +134,9 @@ class Trainer(object):
 			"model/seq2seq-%s-loss-%.2f.pt"
 			%(datetime.now().strftime('%m%d-%H%M'), self.best_valid_loss))
 
+
+
+# Field 사용함, 옛날 버전만 가능
 class Inferer(object):
 	'''
 	
@@ -163,53 +166,3 @@ class Inferer(object):
 		inferred_tensor = output_tensor.max(2)[1] # [2Tx,1]
 		output = self.output_field.reverse(inferred_tensor)[0]
 		return output
-
-#-----
-
-
-
-
-
-
-
-def load_data():
-	# Setting Tokenizer...
-	tagger = konlpy.tag.Komoran()
-	def komoran(text):
-		return [pair[0] for pair in tagger.pos(text)]
-
-	# Generating Fields...
-	ID = data.Field()
-	TEXT = data.Field(sequential=True, tokenize=komoran)
-	LABEL = data.Field()
-
-	# Generating Datasets...
-	train, val, test = data.TabularDataset.splits(
-		path = './',
-		train = 'ratings_train.tsv',
-		validation = 'ratings_test.tsv',
-		test = 'ratings_test.tsv',
-		format = 'tsv',
-		fields = [('id',ID),('text',TEXT),('label',LABEL)],
-		skip_header = True
-	) # 206.95 sec
-	train_data, val_data, test_data = data.BucketIterator.splits(
-		(train, val, test),
-		batch_sizes = (64,64,1),
-		sort_key = lambda x: len(x.text),
-		device='mps'
-	) # generators cannot be serialized
-
-	# Generating Vocabs...
-	ID.build_vocab(train, val, test)
-	TEXT.build_vocab(train, val, test)
-	LABEL.build_vocab(train, val, test)
-
-
-	return train_data, val_data, test_data, TEXT
-
-
-# batch.text = [T,B]
-# batch.label = [1,B]
-
-

@@ -57,17 +57,25 @@ Tesselation
 Displacement mapping
 Toon rendering
 
+Path tracing
 Ray tracing
 Ray casting
 Global illumination
 Photon mapping
+Metropolis line transport
 
 Subsurface scattering
 transluency
 
 Chroma key
 
+Perfect perspective
+depth of field
+Caustic
+
+(마칭 큐브, 사인드 디스턴스 필드)
 코넬 박스, 스탠퍼드 토끼, 유타 주전자
+테스트용 스카이박스 없나, 유니티 에셋 스토어를 잘 활용해봐야겠다
 
 
 ## Rendering engine

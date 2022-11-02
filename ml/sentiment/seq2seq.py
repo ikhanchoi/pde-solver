@@ -16,7 +16,7 @@ Paper link: https://arxiv.org/abs/1409.0473
 
 import torch
 import torch.nn as nn
-device = torch.device("mps")
+device = torch.device("cpu")
 
 
 class Seq2Seq(nn.Module):
@@ -69,11 +69,11 @@ class Seq2Seq(nn.Module):
 		enc_output, hidden = self.encoder(inputs) # [Tx,B;2H],[2,B;H]<-[Tx,B]
 
 		# initialize inputs for decoder
-		input = torch.ones([B],dtype=torch.long).to(device) # [B] SOS
+		input = torch.ones(B).long().to(device) # [B] SOS
 		hidden = self.init_hidden(hidden[-1]) # [B;H]<-[2,B;H]
 
 		# decoding
-		for t in range(1, Ty):
+		for t in range(Ty):
 			output, hidden = self.decoder(input, hidden, enc_output)
 			outputs[t] = output
 			input = output.max(1)[1]
@@ -198,7 +198,6 @@ class Decoder(nn.Module):
 
 	def forward(self, input, hidden, enc_output): # [B],[B;H],[Tx,B;2H]
 		context = self.alignment(hidden, enc_output) # [B,2H]<-[B;H],[Tx,B;2H]
-		
 		embed = self.emb(input) # [B;E]<-[B]
 		rnn_input = torch.cat([embed, context],1) # [B;E+2H]<-[B;E],Context
 		rnn_input = rnn_input.unsqueeze(0) # [1,B;E+2H]<-[B;E+2H]
