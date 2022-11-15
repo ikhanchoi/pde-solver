@@ -14,45 +14,38 @@ stringstream cin;
 using namespace std;
 
 class PICNIC{
-	int N, M;
-	bool adj[10][10] = {false};
+	int N,M;//V,E
+	bool adj[10][10];
+	bool vis[10];
 
-	int countPairings(bool* paired){
-		int i = -1;
-		for(int n = 0; n < N; n++)
-			if(!paired[n]){
-				i = n;
-				break;
-			}
-		if(i == -1) return 1;
-
-		int ret = 0;
-		for(int j = i + 1; j < N; j++)
-			if(!paired[j] && adj[i][j]){ // promising
-				paired[i] = paired[j] = true;
-				ret += countPairings(paired);
-				paired[i] = paired[j] = false;
-			}
+	int back(){
+		int ret=0;
+		int i=-1;
+		for(int n=0;n<N;n++)
+			if(!vis[n]){i=n;break;}
+		if(i==-1) return 1;
+		for(int j=i+1;j<N;j++)
+			if(!vis[j]&&adj[i][j])
+				vis[i]=vis[j]=true,
+				ret+=back(),
+				vis[i]=vis[j]=false;
 		return ret;
 	}
 
 public:
 	void solve(){
 		cin >> N >> M;
-		for(int m = 0; m < M; m++){
-			int i,j;
-			cin >> i >> j;
-			adj[i][j] = adj[j][i] = true;
-		}
-
-		bool paired[10] = {false};
-		cout << countPairings(paired) << endl;
+		int i,j;
+		while(M--)
+			cin >> i >> j,
+			adj[i][j]=adj[j][i]=true;
+		cout << back() << endl;
 	}
 };
 
 
 
-
+/*
 // 완성 안됨
 #include <iostream>
 using namespace std;
@@ -96,7 +89,7 @@ public:
 			cout << countCover() << endl;
 	}
 };
-
+*/
 
 
 

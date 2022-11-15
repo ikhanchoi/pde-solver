@@ -40,31 +40,15 @@ int main() {
 	auto* triangle = new Triangle(vertices, color, velocity);
 
 
-	float FPS = 60.0f;
-	float sec_per_update = 1.0f / FPS;
-	float sec_per_render = 1.0f / FPS; // Limiting FPS
-	float current = 0.0f, previous = 0.0f, rendered = 0.0f, lag = 0.0f;
-	int count_update = 0, count_render = 0;
+	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	while(!glfwWindowShouldClose(window)) {
-		current = glfwGetTime();
-		lag += current - previous;
-		previous = current;
+		glfwPollEvents();
+		
 
-		while(lag >= sec_per_update) {
-			lag -= sec_per_update;
-			count_update++;
-			glfwPollEvents();
-			inputSystem.keyUpdate();
-		}
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		if(current - rendered >= sec_per_render) {
-			rendered = current;
-			count_render++;
-			glClear(GL_COLOR_BUFFER_BIT);
-			gl
-			glfwSwapBuffers(window);
-		}
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		glfwSwapBuffers(window);
 	}
-	std::cout << "Update Per Second: " << count_update / current << std::endl;
-	std::cout << "Render Per Second: " << count_render / current << std::endl;
 }

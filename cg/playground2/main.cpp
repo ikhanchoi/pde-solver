@@ -20,11 +20,14 @@ int main() {
 	GLFWwindow* window = WindowInitializer(3,3).createWindow();
 
 
-	// imgui 6 lines
+
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
+
 	ImGui::StyleColorsDark();
+
+	// Setup Platform/Renderer backends
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init("#version 330");
 
@@ -47,6 +50,9 @@ int main() {
 
 		glfwPollEvents();
 
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
 
 		glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -67,13 +73,6 @@ int main() {
 		ourModel.Draw(ourShader);
 
 
-
-
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplGlfw_NewFrame();
-		ImGui::NewFrame();
-
-		ImGui::ShowDemoWindow();
 
 		{
 			static float f = 0.0f;
@@ -109,6 +108,10 @@ int main() {
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
+
+		int display_w, display_h;
+		glfwGetFramebufferSize(window, &display_w, &display_h);
+		glViewport(0, 0, display_w, display_h);
 
 		glfwSwapBuffers(window);
 

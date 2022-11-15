@@ -1,3 +1,18 @@
+
+
+l-value, r-value
+함수 객체
+스레드
+TR1, 부스트
+
+# 0. Build
+compilation
+전처리
+헤더 링크
+build
+메이크
+
+
 # 1. Pointer
 
 
@@ -23,6 +38,11 @@ RAII
 
 
 # 2. Class
+
+## 생성자와 소멸자
+복사생성자, 복사대입연산자
+explicit
+
 
 ## 스태틱
 1. Static variable
@@ -53,8 +73,9 @@ RAII
 
 static const vs const static
 - static const
-	클래스 내부 초기화 가능
-	헤더 파일에서 초기화 가능
+	마치 클래스로 캡슐화되는 #define과 같은 존재
+	헤더 파일에서 선언과 동시에 초기화 가능
+	소스 파일에서 정의 가능(값 주는 것 아님)
 	초기화 이후 값 변경 불가능
 
 const 변수의 값은 컴파일타임에 결정
@@ -67,23 +88,11 @@ const 변수의 값은 컴파일타임에 결정
 
 
 
+## 다중상속
+### 가상함수 테이블
 
 
-
-
-# 3. Stream
-
-
-
-
-
-
-
-# 4. Virtual
-## 가상함수 테이블
-
-
-## 추상클래스
+### 추상클래스
 ```c++
 class AbstractClass
 {
@@ -102,7 +111,7 @@ class AbstractClass
 
 
 
-## 인터페이스
+### 인터페이스
 
 ```c++
 class IClass
@@ -121,14 +130,30 @@ public:
 멤버변수는 넣지 않고 상속하는 자식클래스에 일일이 구현해주어야 한다.
 
 
-# 5. Template
+
+
+
+
+# 3. STL
+container
+iterator
+stream
+algorithm
+function object
 
 
 
 
 
 
-# 6. Multi-thread
+# 4. Template
+
+
+
+
+
+
+# 5. Multi-thread
 
 
 비동기 처리?
