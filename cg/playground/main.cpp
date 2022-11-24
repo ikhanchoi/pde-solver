@@ -5,19 +5,20 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <stb_image.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include "window.h"
 #include "input.h"
 #include "shader.h"
+#include "camera.h"
 #include "mesh.h"
 #include "model.h"
-#include "stb_image.h"
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 
 int main() {
 
-	GLFWwindow* window = WindowInitializer(3,3).createWindow();
+	GLFWwindow* window = WindowInitializer(3,3,1280,960).createWindow();
 
 
 	// imgui 6 lines
@@ -29,19 +30,26 @@ int main() {
 	ImGui_ImplOpenGL3_Init("#version 330");
 
 
-
-	Shader ourShader("../shader.vert", "../shader.frag");
+	Shader ourShader("../default.vert", "../default.frag");
 	ourShader.use();
 
 	stbi_set_flip_vertically_on_load(true);
 	glEnable(GL_DEPTH_TEST);
 
-	Model ourModel("../backpack/backpack.obj");
+	Model ourModel("../../backpack/backpack.obj");
 
 
 	bool show_demo_window = true;
 	bool show_another_window = false;
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
+
+
+	float x = 0.0f, z = 0.0f;
+	float v = 0.1f;
+	float curr = 0.0f;
+	float prev = 0.0f;
+	float ups;
 
 	while(!glfwWindowShouldClose(window)) {
 
@@ -51,12 +59,26 @@ int main() {
 		glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+
+
+		if(ImGui::IsKeyDown(ImGuiKey_W))
+			curr = (float)ImGui::GetTime(), ups = 1.0f/(curr-prev), prev = curr, z -= v;
+		if(ImGui::IsKeyDown(ImGuiKey_A))
+			x -= v;
+		if(ImGui::IsKeyDown(ImGuiKey_S))
+			z += v;
+		if(ImGui::IsKeyDown(ImGuiKey_D))
+			x += v;
+
+
 		// view/projection transformations
 		glm::mat4 projection = glm::perspective(0.5f, 4.0f/3.0f, 0.1f, 100.0f);
 		glm::mat4 view = glm::mat4(1.0f);//camera.GetViewMatrix();
-		view = glm::translate(view, glm::vec3(0.0f,0.0f,-10.0f));
+		view = glm::translate(view, glm::vec3(-x,0.0f,-10.0f-z));
 		ourShader.setMat4("projection", projection);
 		ourShader.setMat4("view", view);
+
+
 
 		// render the loaded model
 		glm::mat4 model = glm::mat4(1.0f);
@@ -64,16 +86,23 @@ int main() {
 		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 		ourShader.setMat4("model", model);
 
+
+
 		ourModel.Draw(ourShader);
 
 
 
 
+
+
+		// imgui start
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
-		ImGui::ShowDemoWindow();
+		{
+			ImGui::ShowDemoWindow();
+		}
 
 		{
 			static float f = 0.0f;
@@ -94,6 +123,7 @@ int main() {
 			ImGui::Text("counter = %d", counter);
 
 			ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+			ImGui::Text("ups %.3f", ups);
 			ImGui::End();
 		}
 
@@ -105,9 +135,9 @@ int main() {
 			ImGui::End();
 		}
 
-
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		// imgui end
 
 
 		glfwSwapBuffers(window);
@@ -120,6 +150,8 @@ int main() {
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
+
+
 	glfwTerminate();
 	return 0;
 }
