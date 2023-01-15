@@ -1,15 +1,15 @@
-#ifndef MAIN_CPP_MESH_H
-#define MAIN_CPP_MESH_H
+#ifndef MESH_H
+#define MESH_H
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <string>
 #include <vector>
-using namespace std;
 
 #include "shader.h"
 
+using namespace std;
 
 struct Vertex {
 	glm::vec3 Position;

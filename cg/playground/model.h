@@ -1,5 +1,5 @@
-#ifndef MAIN_CPP_MODEL_H
-#define MAIN_CPP_MODEL_H
+#ifndef MODEL_H
+#define MODEL_H
 
 #include <glad/glad.h>
 
@@ -33,12 +33,13 @@ public:
 	bool gammaCorrection;
 
 	// constructor, expects a filepath to a 3D model.
-	Model(string const &path, bool gamma = false) : gammaCorrection(gamma) { loadModel(path); }
+	Model(string const& path, bool gamma = false) : gammaCorrection(gamma) { loadModel(path); }
 
 	// draws the model, and thus all its meshes
 	void Draw(Shader &shader){
-		for(unsigned int i = 0; i < meshes.size(); i++)
-			meshes[i].draw(shader);
+		shader.use();
+		for(auto& mesh : meshes)
+			mesh.draw(shader);
 	}
 
 private:

@@ -1,5 +1,5 @@
-#ifndef MAIN_CPP_INPUT_H
-#define MAIN_CPP_INPUT_H
+#ifndef INPUT_H
+#define INPUT_H
 
 #include <GLFW/glfw3.h>
 #include <iostream>
