@@ -8,6 +8,7 @@ set(CMAKE_CXX_EXTENSIONS ON)
 
 
 # glfw, glm, assimp
+# these are installed via homebrew
 find_package(glfw3 3.3 REQUIRED)
 find_package(glm REQUIRED)
 find_package(assimp REQUIRED)
