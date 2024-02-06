@@ -6,7 +6,6 @@
 # 알고리즘 설계 패러다임
 
 
-## 완전탐색
 
 top-down(DFS), bottom-up(BFS)
 visited, parent: instead of tracking all path info
@@ -35,7 +34,7 @@ memoization, tabulation
 2. 인풋업뎃(있을 경우)
 3. 문제풀기(다음찾기/문제합치기/dp업뎃)
 
-### 분할정복
+### 분할정복법
 optimal substructure, non-overlapping subproblems
 prun-and-search
 
@@ -46,18 +45,27 @@ optimal substructure, greedy choice property
 탐욕선택을 위한 기준을 정할 것, 이것도 부분문제를 말하는 것으로 대부분 길이이다
 
 
-### 동적계획
+### 동적계획법
 optimal substructure, overlapping subproblems
 
 
 
 ## 
-### 퇴각검색
+트리 탐색의 경우
+결정문제는 퇴각검색, 최적화문제는 분기한정
+
+
 탐색공간과 promising condition이 거의 분리된 경우
 DFS에 조건 추가하기
 제약충족문제
 
-### 분기한정
+
+
+네트워크 플로우
+시간복잡도(분할상환분석)
+계산복잡도
+
+
 
 
 
@@ -114,14 +122,15 @@ independent set problem
 eight queens problem
 sudoku solving problem
 maze(flood fill)
+string searching/matching
 
 
 matrix multiplication
 markov chain, hidden markov model
+fast fourier transform
 combinatorial game, ai
 huffman code
 metaheuristic: local search, simulated annealing
-
 
 
 
