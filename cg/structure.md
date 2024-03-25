@@ -1,181 +1,106 @@
 
 
-#
+# Class design
 
-## 3. inputs
-input system을 어느 정도까지 만들어야 할까
-렌더는
+rendering system, animation system, physics system, audio system, input system
 
-## 4. shaders
+render loop and game loop
 
-## 5. meshes
+##
 
+김완수 교수님
+형준이 형
+준오
+jcom
 
-## 6. materials
 
+model: 넓게는 디자이너들에 의해 만들어지는 애셋의 총칭. mesh, textures, motion, sound 등이 있다. shader도 애셋이지만 디자이너가 만들지는 않다 보니 model이라고는 잘 안 한다. 애셋을 원하는 형태로 안정적이게 로딩하는 기능을 가지며, 컴포넌트에 직접적으로 관련되지는 않는다. 좁게는 mesh와 material을 갖고 있고 draw 메소드를 갖는 클래스를 뜻한다.
 
+object: component들을 가진 것.
 
+component: 업데이트에 의해 매 프레임 변경되는 속성값들과 반응하는 방식을 규정하는 규칙들을 갖고(내적 패러미터, 멤버 변수), 매 프레임마다 시스템으로부터 주변의 변화를 인식하여(외적 패러미터, 메소드 인자), 내적 패러미터를 갱신하고 시스템에 필요한 정보를 보고하는 update 메소드를 가진 클래스.
 
-# Projects
+system: 특정 종류의 component들의 리스트를 들고 있어, 다른 component가 update 시의 참조할 수 있어야
 
-## Exercises
+render system: model/effect/camera/light component들의 리스트를 들고 있어서, camera와 light 정보를 보고받고, model이나 effect의 draw 메소드를 호출하는 클래스.
 
-### Camera
+model: mesh와 material을 멤버로 하나씩 가지고, camera와 light 정보를 인자로 받아, 화면에 이미지를 출력하는 draw 메소드를 가지는 컴포넌트. render system에 보고할 정보는 없다. model/effect 컴포넌트가 다른 종류의 컴포넌트와 다른 한 가지는 update 메소드 대신 draw 메소드를 가진다는 것.
 
-- Flight simulation
-마우스와 키보드 신호에 딜레이를 받으며 카메라와 비행기가 움직이는 상황을 어떻게 모델링할까?
+submesh: (말단 노드에 대응) vao를 최대 하나 가진다. 포맷/레이아웃이 똑같은 여러 mesh의 경우 하나의 vao에 넣는 것이 좋지만 그런 경우 처음부터 그렇게 모델링이 되었다고 가정해서 submesh와 vao를 일대일대응시키자.
 
-- Lens
-	
-- Focusing
-먼 곳은 흐리게 가까운 곳은 선명하게
+material: texture들과 여러 parameter들을 shader program 하나로 묶은 서브컴포넌트. shader를 여러 개 만들어서 if문으로 선택하게도 할 수 있을 것이지만 일단 하나만 받자.
 
-- Motion blur
+camera component: 위치와 각도 방향 및 카메라의 종류에. update 시
 
-### Lighting
 
-- Flash light
-플래시는 포물면과 가까운 모양으로 좀 더 빛이 멀리나가게 설계가 되어 있다. 감쇠공식을 어떻게 모델링해야 할까?
-컷오프의 페더(소프트엣지) 및 부분배경광도 모델링하고자 한다. 중심으로부터 멀어지는 각도에 대한 감쇠공식은 어떻게 모델링해야 할까? (튜토리얼은 렐루마냥 깎았다)
-계산량은 어떻게 되는가?
+- 물리: 즉 강체인지 유체인지 등의 유형정보, collision 등의 정보, physical parameter.
+- 인풋: FSM, FSM에 영향을 미칠 수 있는 인풋정보와 상호작용 정보, FSM parameter.
 
-- Lamp
-시간에 따라 깜빡이며 랜덤하게 작용하는 광원, 방향도 제한적
 
 
-Ambient occlusion
-Bloom
-Spectral rendering
-Anti-aliasing
 
-Normal mapping
-Parallax mapping
 
-PBR
 
-Tesselation
-Displacement mapping
-Toon rendering
 
-Path tracing
-Ray tracing
-Ray casting
-Global illumination
-Photon mapping
-Metropolis line transport
 
-Subsurface scattering
-transluency
+대상을 만들어내는 일종의 클래스
+같은 모델이 여러 장면에 나올 수도 있고 여러 대상으로 나올 수도 있다.
+모델의 종류: 생물, 무생물, 현상 등
 
-Chroma key
+### model file loader
 
-Perfect perspective
-depth of field
-Caustic
+### mesh
 
-(마칭 큐브, 사인드 디스턴스 필드)
-코넬 박스, 스탠퍼드 토끼, 유타 주전자
-테스트용 스카이박스 없나, 유니티 에셋 스토어를 잘 활용해봐야겠다
+### texture
+우리는 texture를 assets에 한정시켜 specular map과 같은 이미지는 texture로 보고 material로는 보지 않을 것이다.
 
 
-## Rendering engine
 
 
 
-실험해볼 것들 많을 것 같다
-레이 트레이싱, GI, 특히 컴퓨터 친화적인 부분에서 많을 것 같다
+## shaders
 
-멋있는 2d 이미지를 3d로 카피하기
-시각효과들
+정점별(attributes) < 대상별(material) < 장면별(camera, light interaction)
+shader와 program에 사용되는 값들은 프레임마다 갱신해야 한다.
+program은 object에 따라 다르게 적용된다.
+즉, object 하나하나는 자신이 스크린에 어떻게 그려질 지를 지시할 program을 하나 갖고 있어야 한다.
 
 
+### vertex shader
+- in(layout): mesh(버텍스 버퍼에 저장된 메쉬 좌표값)
+- uniform(interaction): cameras, 분위기/감정/진행도 등의 상황
+- uniform: 시각효과(스카이박스, 착시 등)
+- out: TexCoords
 
+카메라행렬 계산, 정점보간
 
+### fragment shader
+- uniform: material(PBR 패러미터, texture 파일 인디케이터)
+- uniform(interaction): lights, 분위기/감정/진행도 등의 상황
+- in: TexCoords
+- out(layout): FragColor
 
-## Physics engine
+온갖 종류 효과 계산
+그래픽 계산의 가장 큰 병목
 
-force field
 
 
-### Rigid body
-collision
-rigid body motion
+어떻게 클래스를 디자인해야 submesh와 texture를 shader의 적절한 변수에 쉽게 대응시킬 수 있을까?
 
-### Soft body
-slime
-cloth
-hair
 
-deformation
-destruction
 
-### Fluid
-liquid, gel
-fire, smoke, plasma, bubble
-flow, wave
-raindrops
-	식물 잎사귀에 떨어지는 물방울, 젖어가는 흙
-witchery effects
 
-### Particle
-sands
-snow
-	눈 종류, 바람 상호작용, 사람 상호작용
 
-### Phase transition
-soot generation from fire
-fogging
-melting ice
-combustion
-
-### 이동
-ships, airplanes, bird flight 
-
-
-
-
-
-## Map generation
-
-### Skybox
-atmospheric scattering
-astronomy
-
-### Climate
-cloud simulation
-raining snowing lightening
-rainbow intensity and positioning
-
-### Terrain
-terrain formation
-ecosystem simulation: forest, marine..
-open world
-
-
-
-# 셰이딩과 상용엔진의 한계
-- 대규모 시뮬레이션 최적화 (팩토리오)
-- 코드 다이어트를 통한 최적화
-- 새로운 물리 상호작용 시스템 (노이타)
-- 새로운 기하 시스템 (미에가쿠레)
-- 새로운 렌더링 시스템/파이프라인
-
-
-
-
-
-
-
-
-
-# Visual design elements
-Data delivered to Rendering engine
+### Visual design elements: data delivered to Rendering engine
 
 Line, Shape, Form
 	vertex data
 		position vector
 	movement data
-		geometric/organic, curvilinear/rectilinear
+		curvilinear/rectilinear
+		rigged bones, motion cycle data
+	random data
+		visual effects
 Space
 	camera position and angle data
 	depth data for each vertex
@@ -190,14 +115,53 @@ Color, Value
 	contrast data
 
 
-Attribute
-	Mesh
-Texture
-	Material
 
-Uniform
-	Camera
-	Light
+
+
+
+
+
+
+
+### input system
+
+
+
+### physics system
+
+
+
+### ai system
+
+
+
+
+
+
+
+
+
+
+
+
+# Shader programming
+
+## meshes
+
+높이 맵
+착시효과
+기하학적 변형
+
+
+## cameras
+
+
+
+
+## textures
+
+
+## lights
 
 
 
@@ -205,4 +169,18 @@ Uniform
 
 transform feedback
 asynchronous pixel transfers
+
+
+
+
+
+
+
+# Physics simulation
+
+
+
+
+
+
 

@@ -43,6 +43,12 @@ algorithm
 
 
 
+
+
+
+
+
+
 # 0. Build
 compilation
 전처리
@@ -53,8 +59,29 @@ build
 
 # 1. Pointer
 
-
 ## 참조자
+
+똑같은 공간에 다른 변수명을 부여하는 것
+
+선언 시
+- int* p		(int*) 타입의 변수 p를 선언
+- int& b = a	b에 동의어 a를 추가
+연산자로서
+- * 내용물 연산자
+- & 주소값 연산자
+
+### 인자로 넘길 때
+
+포인터 인자 함수:
+- 인자가 너무 커서 복사하기 싫거나, 인자의 값을 함수 내에서 변경해야 할 때.
+- 단, 함수를 호출하여 값을 넘겨줄 때 주소값 연산자 &를 붙여서 넘겨야 한다.
+참조자 인자 함수:
+- 인자의 값을 함수 내에서 변경해야 하나, 클래스 등이 아닌 간단한 타입의 경우.
+
+
+const Object* obj; // can't change data
+Object* const obj; // can't change pointer
+const Object* const obj; // can't change data or pointer
 
 
 ## 메모리 구조
@@ -81,6 +108,13 @@ RAII
 초기화 됐을 때만 자원을 획득하자
 유효하지 않은 변수는 자원 획득하지 말자
 반대로 가리키는 포인터도 없고 식별자도 없어서 유효하지 않게 된 변수도 없애야 한다
+
+
+## 함수포인터
+
+
+void* function1(void) // declares a function which returns void*,
+void (* function2)(void) // declares a function pointer to a function which returns void.
 
 
 
@@ -225,12 +259,6 @@ const 변수의 값은 컴파일타임에 결정
 연산자 오버로딩
 
 
-## 함수포인터
-
-
-
-
-
 
 
 
@@ -345,6 +373,13 @@ function object
 
 
 
+
+## string
+
+"aaa".str().c_str() 하지 말기
+
+string vs const char*
+- 메모리가 어디 할당되는지 전부 파악하고자 하는 게 아니면 가능한 string을 쓰자.
 
 
 
