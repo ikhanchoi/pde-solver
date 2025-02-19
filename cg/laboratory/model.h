@@ -34,16 +34,20 @@ private:
 
 public:
 	tModel(const string& path) {
+		// initialize scene data structure from path
 		const aiScene* scene = _importer.ReadFile(path,
 				aiProcess_Triangulate |
 				aiProcess_GenSmoothNormals |
 				aiProcess_FlipUVs |
 				aiProcess_CalcTangentSpace);
+		// error message
 		if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
 			cout << "ERROR::ASSIMP_MESH_NOT_LOADED " << _importer.GetErrorString() << "\n";
 			return;
 		}
+		// process meshes recursively
 		processMesh(scene, scene->mRootNode);
+		// process materials by for loop
 		for(unsigned int i = 0; i < scene->mNumMaterials; i++)
 			processMaterial(scene->mMaterials[i]);
 	}

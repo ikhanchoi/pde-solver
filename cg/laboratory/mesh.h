@@ -73,7 +73,7 @@ private:
 	vector<tSubmesh> _submeshes;
 
 public:
-	void setVao(const tSubmesh& submesh) {
+	void addSubmesh(const tSubmesh& submesh) {
 		_submeshes.push_back(submesh);
 	}
 	void setSubmeshes(const vector<tSubmesh>& submeshes) {
@@ -178,12 +178,13 @@ public:
 
 			// now set the sampler to the correct texture unit
 			glUniform1i(glGetUniformLocation(program, (name + number).c_str()), i);
+
 			// and finally bind the texture to the activated texture unit
 			glBindTexture(GL_TEXTURE_2D, textures[i].id);
 		}
 
 		glBindVertexArray(VAO);
-		glDrawElements(GL_TRIANGLES, static_cast<unsigned int>(indices.size()), GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 		glActiveTexture(GL_TEXTURE0);
 	}

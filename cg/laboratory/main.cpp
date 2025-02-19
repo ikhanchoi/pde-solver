@@ -14,13 +14,59 @@
 #include "material.h"
 #include "camera.h"
 #include "model.h"
+#include "render.h"
 using namespace std;
 
 int main() {
 	GLFWwindow* window = createWindow(3,3,1280,960);
 
 
-	/* 1. Initialize internals */
+
+	/* 1. Initialize externals */
+	// Since the current directory is cmake-build-debug, we need to indicate the parent directory
+
+	// load shader assets
+	Shader vertex_shader("../assets/shaders/default.vert");
+	Shader fragment_shader("../assets/shaders/default.frag");
+
+	// set shader assets to programs
+	Program program;
+	program.setShader(vertex_shader);
+	program.setShader(fragment_shader);
+
+
+
+	//  model = mesh + material
+	//  transformable(getter of model matrix), drawable, collider/floor
+	Model backpack("../assets/models/backpack/backpack.obj");
+	tModel tbackpack("../assets/models/backpack/backpack.obj");
+
+
+	// extract vaos and textures from files via Loader,
+	// make Mesh and Material objects and initialize with setVaos, setProgram, setTexures
+
+	RenderComponent render_component;
+
+	tMesh mesh;
+	mesh.setSubmeshes(tbackpack.getSubmeshes());
+	render_component.setMesh(mesh);
+
+	tMaterial material;
+	material.setProgram(program);
+	material.setTextures(tbackpack.getTextures());
+	render_component.setMaterial(material);
+
+
+
+
+
+
+	/* 2. Initialize internals */
+
+	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
+	bool show_demo_window = true;
+	bool show_another_window = false;
 
 	// systems
 
@@ -34,44 +80,7 @@ int main() {
 	// lights
 
 
-
-
-	/* 2. Load externals */
-	// Since the current directory is in cmake-build-debug, we have to start from the parent directory
-
-
-	Shader vertex_shader("../assets/shaders/default.vert");
-	Shader fragment_shader("../assets/shaders/default.frag");
-
-	Program program;
-	program.setShader(vertex_shader);
-	program.setShader(fragment_shader);
-
-
-
-
-
-	//  model = mesh + material
-	//  transformable(getter of model matrix), drawable, collider/floor
-	Model backpack("../assets/models/backpack/backpack.obj");
-
-	// Loader로 vaos와 textures를 파일로부터 뽑아내고
-	// Mesh와 Material 오브젝트들을 만들어서 setVaos, setProgram setTexures 등으로 초기화
-
-
-
-
-
-	/* 3. Set global variables */
-
-	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-
-	bool show_demo_window = true;
-	bool show_another_window = false;
-
-
-
-	/* 4. Loop */
+	/* 3. Loop */
 	while(!glfwWindowShouldClose(window)) {
 
 
@@ -90,52 +99,6 @@ int main() {
 			z += v;
 		if(ImGui::IsKeyDown(ImGuiKey_D))
 			x += v;
-
-
-		// (3) Logic
-		// "내부적 게임 규칙에 따라" 수치나 상황이 바뀌는 것을 업데이트
-
-
-		// (4) Camera
-
-
-		glm::mat4 projection = glm::perspective(0.5f, 4.0f/3.0f, 0.1f, 100.0f);
-//		program.setMat4("projection", projection);
-		glUniformMatrix4fv(glGetUniformLocation(program.getId(), "projection"), 1, GL_FALSE, &projection[0][0]);
-
-		glm::mat4 view = glm::mat4(1.0f);//camera.GetViewMatrix();
-		view = glm::translate(view, glm::vec3(-x,0.0f,-10.0f-z));
-//		program.setMat4("view", view);
-		glUniformMatrix4fv(glGetUniformLocation(program.getId(), "view"), 1, GL_FALSE, &view[0][0]);
-
-		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-//		program.setMat4("model", model);
-		glUniformMatrix4fv(glGetUniformLocation(program.getId(), "model"), 1, GL_FALSE, &model[0][0]);
-
-
-
-
-		// Draw
-		glClearColor(clear_color.x * clear_color.w,
-					 clear_color.y * clear_color.w,
-					 clear_color.z * clear_color.w,
-					 clear_color.w);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		program.use();
-		backpack.Draw(program.getId());
-
-
-
-
-
-
-
-
-
-
 
 
 		// imgui
@@ -175,8 +138,44 @@ int main() {
 			ImGui::End();
 		}
 
+
+		// (3) Logic
+		// "내부적 게임 규칙에 따라" 수치나 상황이 바뀌는 것을 업데이트
+
+
+		// (4) Render
+
+
+		glm::mat4 projection = glm::perspective(0.5f, 4.0f/3.0f, 0.1f, 100.0f);
+//		program.setMat4("projection", projection);
+		glUniformMatrix4fv(glGetUniformLocation(program.getId(), "projection"), 1, GL_FALSE, &projection[0][0]);
+
+		glm::mat4 view = glm::mat4(1.0f);//camera.GetViewMatrix();
+		view = glm::translate(view, glm::vec3(-x,0.0f,-10.0f-z));
+//		program.setMat4("view", view);
+		glUniformMatrix4fv(glGetUniformLocation(program.getId(), "view"), 1, GL_FALSE, &view[0][0]);
+
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+//		program.setMat4("model", model);
+		glUniformMatrix4fv(glGetUniformLocation(program.getId(), "model"), 1, GL_FALSE, &model[0][0]);
+
+
+		// Draw
+		glClearColor(clear_color.x * clear_color.w,
+					 clear_color.y * clear_color.w,
+					 clear_color.z * clear_color.w,
+					 clear_color.w);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		program.use();
+		render_component.draw();
+		//backpack.Draw(program.getId());
+
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
 
 
 		glfwSwapBuffers(window);

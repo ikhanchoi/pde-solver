@@ -44,17 +44,17 @@ public:
 	void draw(/* cameras and lights passed to shader programs */){
 
 		for (int i = 0; i < size; i++){
-			vector<GLuint> vaos = _meshes[i].getVaos();
-			vector<GLuint> textures = _materials[i].getTextures();
+			vector<tSubmesh> submeshes = _meshes[i].getSubmeshes();
+			vector<tTexture> textures = _materials[i].getTextures();
 			_materials[i].getProgram().use();
 
 			for(GLuint j = 0; j < textures.size(); j++) {
 				glActiveTexture(GL_TEXTURE0 + j);
-				glBindTexture(GL_TEXTURE_2D, textures[j]);
+				glBindTexture(GL_TEXTURE_2D, textures[j].getId());
 			}
 
-			for(unsigned int vao : vaos) {
-				glBindVertexArray(vao);
+			for(auto & submesh : submeshes) {
+				glBindVertexArray(submesh.getVAO());
 				GLint indicesSize = 0;
 				glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &indicesSize);
 				glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(indicesSize/sizeof(unsigned int)),

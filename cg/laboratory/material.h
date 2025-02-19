@@ -162,15 +162,15 @@ public:
 	void setProgram(const Program& program) {
 		_program = program;
 	}
+	void setTextures(const vector<tTexture>& texutures) {
+		for(unsigned int i = 0; i < texutures.size(); i++)
+			setTexture(texutures[i]);
+	}
 	void setTexture(const tTexture& texture) {
 		_textures.push_back(texture);
 		glActiveTexture(GL_TEXTURE0 + _textures.size() - 1);
 		glUniform1i(glGetUniformLocation(_program.getId(), texture.getSampler().c_str()), _textures.size() - 1);
 		glActiveTexture(GL_TEXTURE0);
-	}
-	void setTextures(const vector<tTexture>& texutures) {
-		for(unsigned int i = 0; i < texutures.size(); i++)
-			setTexture(texutures[i]);
 	}
 
 	vector<tTexture> getTextures() {
